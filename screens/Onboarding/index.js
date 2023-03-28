@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
-import { Alert, Image, View, Text, StyleSheet, ScrollView } from 'react-native'
+import React, { useState, useEffect, useContext } from 'react';
+import { Alert, Image, View, Text, StyleSheet, ScrollView } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import SafeView from '../../components/SafeView';
+import { AuthContext } from '../../context/AuthContext';
 
 function Onboarding() {
+    const { setData } = useContext(AuthContext);
+
     const [firstName, setFirstName] = useState("");
     const [email, setEmail] = useState("");
 
@@ -39,7 +43,7 @@ function Onboarding() {
 
                 <View style={css.footer}>
                     <Button
-                        onPress={() => Alert.alert("pressed")}
+                        onPress={() => setData()}
                         disabled={!firstName || !email}>
                         Next</Button>
                 </View>
