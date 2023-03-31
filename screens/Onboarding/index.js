@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Alert, Image, View, Text, StyleSheet, ScrollView } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState, useContext } from 'react';
+import { Image, View, Text, StyleSheet, ScrollView } from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import SafeView from '../../components/SafeView';
