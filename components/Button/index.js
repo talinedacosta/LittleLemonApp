@@ -1,7 +1,7 @@
 import React from 'react'
 import { Pressable, Text, StyleSheet } from 'react-native'
 
-const Button = ({ onPress, disabled = "false", appearance = "primary", children }) => {
+const Button = ({ onPress, disabled = false, appearance = "primary", children }) => {
     return (
         <Pressable
             style={[
@@ -36,7 +36,7 @@ const css = StyleSheet.create({
     },
     primary: {
         backgroundColor: '#495E57',
-        color: 'white'
+        color: '#ffffff'
     },
     secondary: {
         backgroundColor: '#F4CE14',

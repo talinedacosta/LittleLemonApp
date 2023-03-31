@@ -1,15 +1,35 @@
 import React, { useState, useContext } from 'react';
-import { Image, View, Text, StyleSheet, ScrollView } from 'react-native';
+import { Image, View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import SafeView from '../../components/SafeView';
 import { AuthContext } from '../../context/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Onboarding() {
-    const { setData } = useContext(AuthContext);
+    const { setOnboarding } = useContext(AuthContext);
 
     const [firstName, setFirstName] = useState("");
     const [email, setEmail] = useState("");
+
+    const setPersonalInformation = async () => {
+        try {
+            const jsonValue = JSON.stringify(
+                {
+                    'firstName': firstName,
+                    'email': email
+                })
+
+            await AsyncStorage.setItem('@personal_information', jsonValue)
+        } catch (error) {
+            Alert.alert('Error saving data, please try again.')
+        }
+    }
+
+    const handleSubmit = () => {
+        setPersonalInformation();
+        setOnboarding();
+    }
 
     return (
         <SafeView>
@@ -42,7 +62,7 @@ function Onboarding() {
 
                 <View style={css.footer}>
                     <Button
-                        onPress={() => setData()}
+                        onPress={() => handleSubmit()}
                         disabled={!firstName || !email}>
                         Next</Button>
                 </View>
