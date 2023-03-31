@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isLogged, setIsLogged] = useState(false);
 
-    const getData = async () => {
+    const getOnboarding = async () => {
         try {
             const value = await AsyncStorage.getItem('@onboarding');
             if (value !== null) {
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const setData = async () => {
+    const setOnboarding = async () => {
         try {
             setIsLoading(true)
             await AsyncStorage.setItem('@onboarding', 'logged')
@@ -32,9 +32,18 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const logout = async () => {
+        try {
+            await AsyncStorage.clear()
+            setIsLogged(false)
+        } catch (error) {
+            Alert.alert('Erro. Try again.')
+        }
+    }
+
     return (
         <AuthContext.Provider
-            value={{ isLogged, isLoading, getData, setData }}>
+            value={{ isLogged, isLoading, getOnboarding, setOnboarding, logout }}>
             {children}
         </AuthContext.Provider>
     )

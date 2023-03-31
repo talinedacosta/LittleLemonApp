@@ -8,10 +8,10 @@ import Profile from '../screens/Profile';
 const Stack = createNativeStackNavigator();
 
 const StackNavigation = () => {
-    const { getData, isLoading, isLogged } = useContext(AuthContext);
+    const { getOnboarding, isLoading, isLogged } = useContext(AuthContext);
 
     useEffect(() => {
-        getData()
+        getOnboarding()
     }, [])
 
 

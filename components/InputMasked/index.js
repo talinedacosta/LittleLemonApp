@@ -1,7 +1,8 @@
 import { useRef } from 'react'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import { MaskedTextInput } from 'react-native-mask-text';
 
-const Input = ({ value, onChangeText, label, keyboardType = "default", ...rest }) => {
+const InputMasked = ({ value, onChangeText, label, mask, keyboardType = "default", ...rest }) => {
     const ref = useRef();
 
     return (
@@ -12,12 +13,14 @@ const Input = ({ value, onChangeText, label, keyboardType = "default", ...rest }
                 {label}
             </Text>
 
-            <TextInput
-                style={css.input}
-                ref={ref}
+            <MaskedTextInput
+                onChangeText={(text) => {
+                    onChangeText(text)
+                }}
                 value={value}
-                onChangeText={(text) => onChangeText(text)}
                 keyboardType={keyboardType}
+                style={css.input}
+                mask={mask}
                 {...rest}
             />
         </View>
@@ -51,4 +54,4 @@ const css = StyleSheet.create({
     },
 })
 
-export default Input
+export default InputMasked
