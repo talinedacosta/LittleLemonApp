@@ -1,5 +1,6 @@
 import React from 'react'
-import { StyleSheet, Switch as DefaultSwitch, View, Text } from 'react-native'
+import { StyleSheet, Switch as DefaultSwitch, View, Platform } from 'react-native'
+import Text from '../Text'
 
 const Switch = ({ label, toggleSwitch, isEnabled }) => {
     return (
@@ -11,7 +12,7 @@ const Switch = ({ label, toggleSwitch, isEnabled }) => {
                 onValueChange={toggleSwitch}
                 value={isEnabled}
             />
-            <Text>{label}</Text>
+            <Text type="h5">{label}</Text>
         </View>
     )
 }
@@ -21,7 +22,8 @@ const css = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        gap: 15
+        gap: 10,
+        marginVertical: Platform.OS === 'ios' ? 5 : 0,
     }
 })
 export default Switch
