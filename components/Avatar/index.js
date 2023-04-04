@@ -1,16 +1,26 @@
-import React from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image } from 'react-native';
 
-const Avatar = ({ source, alt }) => {
-
-    const firstName = alt[0];
-    const lastName = alt.split(' ')[1] ? alt.split(' ')[1][0] : '';
+const Avatar = ({ source, alt, size = "default" }) => {
+    const words = alt.split(' ');
+    const firstName = words[0].charAt(0);
+    const lastName = words[words.length - 1].charAt(0);
 
     return (
-        <View style={css.content}>
+        <View style={[css.content,
+        size === 'small' ?
+            {
+                width: 50,
+                height: 50,
+            } :
+            {
+                width: 80,
+                height: 80,
+            }]}>
             {!source &&
                 (<Text
-                    style={css.text}>
+                    style={
+                        [css.text,
+                        size === 'small' ? { fontSize: 25 } : { fontSize: 40 }]}>
                     {`${firstName}${lastName}`}
                 </Text>)
             }
@@ -19,7 +29,17 @@ const Avatar = ({ source, alt }) => {
                 (<Image
                     resizeMode="cover"
                     source={{ uri: source }}
-                    style={css.image} />)
+                    style={[css.image,
+                    size === 'small' ?
+                        {
+                            width: 50,
+                            height: 50,
+                        } :
+                        {
+                            width: 80,
+                            height: 80,
+                        }
+                    ]} />)
             }
         </View>
     )
@@ -28,23 +48,17 @@ const Avatar = ({ source, alt }) => {
 
 const css = StyleSheet.create({
     text: {
-        fontSize: 45,
         alignSelf: 'stretch',
         textAlign: 'center'
     },
     content: {
-        width: 100,
-        height: 100,
         borderRadius: 50,
         justifyContent: 'center',
         alignContent: 'center',
         backgroundColor: '#F4CE14',
         color: "#333333",
-        overflow: 'hidden'
-    },
-    image: {
-        width: 100,
-        height: 100,
+        overflow: 'hidden',
+        marginVertical: 0
     }
 })
 

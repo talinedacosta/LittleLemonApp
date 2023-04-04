@@ -1,5 +1,5 @@
-import React from 'react'
-import { Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native'
+import React from 'react';
+import { SafeAreaView, StatusBar, StyleSheet, Platform } from 'react-native';
 
 const SafeView = ({ children, customStyle, ...rest }) => {
     return (
@@ -9,7 +9,7 @@ const SafeView = ({ children, customStyle, ...rest }) => {
             {children}
         </SafeAreaView>
     )
-}
+};
 
 const css = StyleSheet.create({
     container: {
@@ -17,6 +17,6 @@ const css = StyleSheet.create({
         width: '100%',
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
     }
-})
+});
 
-export default SafeView
+export default SafeView;

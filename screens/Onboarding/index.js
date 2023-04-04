@@ -1,10 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { Image, View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, StyleSheet, Alert, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import SafeView from '../../components/SafeView';
 import { AuthContext } from '../../context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Logo from '../../components/Logo';
+import Text from '../../components/Text';
 
 function Onboarding() {
     const { setOnboarding } = useContext(AuthContext);
@@ -33,74 +35,61 @@ function Onboarding() {
 
     return (
         <SafeView>
-            <ScrollView contentContainerStyle={css.scrollview}>
-                <View style={css.header}>
-                    <Image
-                        style={css.image}
-                        source={require('../../assets/logo.png')}
-                        resizeMode='contain' />
-                </View>
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={css.keyboardAvoidingView}>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={css.container}>
+                        <View style={css.header}>
+                            <Logo />
+                        </View>
 
-                <View style={css.content}>
+                        <View style={css.content}>
+                            <Text type="h1" style={css.title}>Let us get to know you</Text>
 
-                    <Text style={css.title}>Let us get to know you</Text>
-
-                    <View>
-                        <Input
-                            value={firstName}
-                            onChangeText={setFirstName}
-                            label="First Name"
-                        />
-                        <Input
-                            value={email}
-                            onChangeText={setEmail}
-                            label="Email"
-                            keyboardType="email-address"
-                        />
+                            <Input
+                                value={firstName}
+                                onChangeText={setFirstName}
+                                label="First Name"
+                                autoComplete="name"
+                            />
+                            <Input
+                                value={email}
+                                onChangeText={setEmail}
+                                label="Email"
+                                keyboardType="email-address"
+                                autoComplete="email"
+                            />
+                            <Button
+                                onPress={() => handleSubmit()}
+                                disabled={!firstName || !email}>
+                                Next
+                            </Button>
+                        </View>
                     </View>
-                </View>
-
-                <View style={css.footer}>
-                    <Button
-                        onPress={() => handleSubmit()}
-                        disabled={!firstName || !email}>
-                        Next</Button>
-                </View>
-            </ScrollView>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
         </SafeView>
     );
 }
 
 const css = StyleSheet.create({
-    scrollview: {
-        flexGrow: 1
+    keyboardAvoidingView: {
+        flex: 1,
     },
-    header: {
-        backgroundColor: '#dee3e9',
-        paddingHorizontal: 40,
-        paddingTop: 20,
-        flex: 0.1,
-    },
-    image: {
-        width: 300,
-        height: 55,
-        alignSelf: 'center'
+    container: {
+        flex: 1,
+        backgroundColor: '#EDEFEE',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        padding: 25,
     },
     content: {
-        backgroundColor: '#cbd2d9',
-        justifyContent: 'space-between',
-        flex: 1,
-        padding: 40
+        alignSelf: 'stretch'
+    },
+    header: {
+        alignItems: 'center',
     },
     title: {
-        fontSize: 30,
-        textAlign: 'center'
-    },
-    footer: {
-        flex: 0.02,
-        backgroundColor: '#dee3e9',
-        padding: 40,
-        alignItems: 'flex-end'
+        marginBottom: 30,
     }
 })
 

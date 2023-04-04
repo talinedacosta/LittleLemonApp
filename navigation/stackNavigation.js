@@ -4,6 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import Splash from '../components/Splash';
 import Onboarding from '../screens/Onboarding';
 import Profile from '../screens/Profile';
+import Logo from '../components/Logo'
 
 const Stack = createNativeStackNavigator();
 
@@ -26,7 +27,13 @@ const StackNavigation = () => {
                     isLogged ? (
                         <Stack.Screen name="Profile" component={Profile} />
                     ) : (
-                        <Stack.Screen name="Onboarding" component={Onboarding} />
+                        <Stack.Screen
+                            name="Onboarding"
+                            component={Onboarding}
+                            options={{
+                                headerShown: false,
+                            }}
+                        />
                     )
                 }
             </>
