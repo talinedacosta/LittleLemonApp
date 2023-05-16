@@ -1,37 +1,45 @@
-import React, { useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { View, StyleSheet, Alert, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import SafeView from '../../components/SafeView';
-import { AuthContext } from '../../context/AuthContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Logo from '../../components/Logo';
 import Text from '../../components/Text';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function Onboarding() {
-    const { setOnboarding } = useContext(AuthContext);
-
+function Onboarding({ navigation }) {
     const [firstName, setFirstName] = useState("");
     const [email, setEmail] = useState("");
 
-    const setPersonalInformation = async () => {
+    const storeData = async () => {
         try {
-            const jsonValue = JSON.stringify(
-                {
-                    'firstName': firstName,
-                    'email': email
-                })
-
-            await AsyncStorage.setItem('@personal_information', jsonValue)
+            const jsonValue = JSON.stringify({
+                firstName: firstName,
+                email: email
+            });
+            await AsyncStorage.setItem('@ll_user', jsonValue);
+            navigation.navigate('Profile');
         } catch (error) {
-            Alert.alert('Error saving data, please try again.')
+            Alert.alert('Houve um erro, tente novamente.')
         }
     }
 
-    const handleSubmit = () => {
-        setPersonalInformation();
-        setOnboarding();
-    }
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const value = await AsyncStorage.getItem('@ll_user');
+                if (value !== null) {
+                    navigation.navigate('Profile');
+                }
+
+            } catch (error) {
+                console.log(error)
+                Alert.alert('Houve um erro, tente novamente.');
+            }
+        }
+
+        getData();
+    }, [])
 
     return (
         <SafeView>
@@ -59,7 +67,7 @@ function Onboarding() {
                                 autoComplete="email"
                             />
                             <Button
-                                onPress={() => handleSubmit()}
+                                onPress={() => storeData()}
                                 disabled={!firstName || !email}>
                                 Next
                             </Button>
